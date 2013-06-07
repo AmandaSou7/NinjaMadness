@@ -97,6 +97,7 @@
         });
       });
 
+      var keystroke = 40;
       $(document).keydown(function(data){
         console.log('keydown');
         increment = 9;
@@ -146,8 +147,11 @@
         // generate a snowball
         else if(data.keyCode == 32)
         {
-          dashboard.players_list[username].snowball();
-        } 
+          dashboard.players_list[username].snowball(keystroke);
+        }
+        if(data.keyCode != 32){
+          keystroke = data.keyCode;
+        }
       });
 
 
@@ -275,12 +279,16 @@
           socket.emit('send_ninja1_down', pos_array);
         }
 
-        this.snowball = function (){
+        var i = 0;
+        this.snowball = function (key_direction){
           this.snowball.x = this.x+7;
           this.snowball.y = this.y + 50;
           this.snowball.direction = "right";
 
-          $("div#snowballs").append("<img class='snowball' id='snow' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
+          i++;
+          var snowball_name = "snow"+i;
+
+          $("div#snowballs").append("<img class='snowball' id='"+ snowball_name +"' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
           console.log("x")
           // console.log(this.snowball.x);
           
@@ -295,22 +303,27 @@
           var interval = 10;
 
           function throw_snow () {
-            if(data.keycode == 37 && (x < $('#cr-stage').width())){
+            if(key_direction == 39 && (x < $('#cr-stage').width())){
               x = x + 10;
-              
             }
-            if(data.keycode == 37 && (x+10 > $('#cr-stage').width())){
-              remove_snow();
-            }
-            if(data.keycode == 39 && (x < $('#cr-stage').width())){
+            if(key_direction == 37 && (x > 0)){
               x = x - 10;
-
             }
-            $("div#snowballs img").attr("style", "left:" + x +"px; top:" + y +"px");
+            if(key_direction == 40 && (y < $('#cr-stage').height())){
+              y = y + 10;
+            }
+            if(key_direction == 38 && (y > 0 )){
+              y = y - 10;
+            }
+            if(x > $('#cr-stage').width() || x < 0 || y > $('#cr-stage').height() || y < 0){
+              remove_snow();
+              return;
+            }
+            $("#"+snowball_name+"").attr("style", "left:" + x +"px; top:" + y +"px");
           }
 
           function remove_snow () {
-            document.getElementById('snowballs').removeChild(document.getElementById('snow'));
+            document.getElementById('snowballs').removeChild(document.getElementById(snowball_name));
             clearInterval(timer);
             return false;
           }
