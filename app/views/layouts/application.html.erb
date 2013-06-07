@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ninja On Rails</title>
+  <link href="http://bootsnipp.com/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
+  <link href="http://bootsnipp.com/css/bootstrap-responsive.min.css" media="all" type="text/css" rel="stylesheet">
+  <script src="http://bootsnipp.com/js/jquery.js"></script>
+  <script src="http://bootsnipp.com/js/bootstrap.min.js"></script>
+  <%= stylesheet_link_tag    "application, bootstrap_and_override", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

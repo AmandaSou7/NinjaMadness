@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  kills: 1
+  deaths: 1
+  player: 
+
+two:
+  kills: 1
+  deaths: 1
+  player: 

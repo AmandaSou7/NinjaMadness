@@ -1,0 +1,46 @@
+<div class="container">
+	<div id="message_board">
+		<span>Message Board</span>
+		<div id="messages_post show_messages">
+			<ul id="user_message" class=" bs-docs-sidebar"></ul>
+		</div>
+		<div id="messages">
+			<form id="send_message" action="" method="post">
+				<fieldset>
+	    			<legend></legend>
+					<input type="text" name="chat_message" id="chat_message" class="span3" placeholder="Type your message.">
+					<input type="submit" class="btn pull-right" value="Send">
+				<fieldset>
+			</form>
+		</div>
+		<!-- <form id="submit_msg">
+			<input type="text" id="msg" name="msg" placeholder="Enter Message" />
+			<input type="submit" id="submit" name="submit" value="Post"/>
+		</form> -->
+	</div>
+	<div id="friends_online">
+		<span>Friends List</span>
+		<div id="friends_list users">
+			<ul id="usernames" class="nav"></ul>
+		</div>
+	</div>
+	<div id="people_online">
+		<span>Players List</span>
+		<div id="people_list">
+			<% @player.each do |usr| %>
+				<i class="icon-fire icon-large icon-white"></i><span class="orienta"><%= usr[:alias_name] %></span>
+				<span class="float_right"><i class="icon-ok icon-large icon-white" current_id="<%= @user[:id] %>" value="<%= usr[:user_id] %>"></i></span>
+				<br>
+			<% end %>
+		</div>
+	</div>
+	<div id="cr-stage">
+		<form id="create_player" action="" method="post">
+			<input type = "submit" value="create new player">
+		</form>	
+		<div id="players">
+			<!-- <img id="ninja1" src="/ninja/img/down1.png" style="left:100px; top:150px;"> -->
+		</div>
+		<div id="snowballs"></div>
+	</div>
+</div>

@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href='http://fonts.googleapis.com/css?family=Monofett' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/ninja_snowball.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script type="text/javascript" src="http://localhost:8000/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    var socket = io.connect('http://localhost:8000');
+
+    // create player button creates a new player for all other users
+    socket.on('display_new_player', function(remote_username){
+      // dashboard.players_list[remote_username] = new Player({x: 100, y:150}, remote_username);
+      // // dashboard.players_list[username].alertTest();
+      // dashboard.players_list[remote_username].image_create();
+
+      console.log('display_new_player');
+      console.log(remote_username);
+      $("div#players").append("<div class='player' id='player" + remote_username +"' style='left:100px; top:150px;'><p>player" + remote_username + "</p><img id='ninja1' src='/ninja/img/down1.png'></div>");
+    }); 
+
+    // Controls Ninja movement
+    socket.on('display_ninja1_left', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      $('div#player'+ username).attr("style", "left:" + x +"px; top:" + y +"px;")
+      if (x%2 == 0)
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/left1.png")
+      else
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/left2.png")
+    });
+
+    socket.on('display_ninja1_right', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      $('div#player'+ username).attr("style", "left:" + x +"px; top:" + y +"px;")
+      if (x%2 == 0)
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/right1.png")
+      else
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/right2.png")
+    });
+    
+    socket.on('display_ninja1_up', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      $('div#player'+ username).attr("style", "left:" + x +"px; top:" + y +"px;")
+      if (y%2 == 0)
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/up1.png")
+      else
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/up2.png")
+    });
+
+    socket.on('display_ninja1_down', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      $('div#player'+ username).attr("style", "left:" + x +"px; top:" + y +"px;")
+      if (y%2 == 0)
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down1.png")
+      else
+        $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down2.png")
+    });
+    
+    //trigger send message event 
+    $(document).ready(function(){
+      console.log ("doc is ready");
+
+      // sets the global local username and the list of online users
+      socket.emit('get_username');
+      var username = null;
+      socket.on('display_username', function (username_array){
+        username_in = username_array[0];
+        users = username_array[1];
+
+        if(username == null)
+        {
+          username = username_in;
+        }
+
+        $("ul#usernames").empty();
+        users.forEach(function (user){
+          if(user.is_login === true)
+          {
+            if (user.username == username)
+              $("ul#usernames").append("<li>user_"+ user.username +"*</li>");
+            else
+              $("ul#usernames").append("<li>user_"+ user.username +"</li>");
+          }
+        });
+      });
+
+      $(document).keydown(function(data){
+        console.log('keydown');
+        increment = 9;
+
+        // socket.emit('get_username');
+        console.log('keydown');
+        console.log(username);
+
+        //LEFT
+        if(data.keyCode == 37)
+        {
+          // console.log('display_username');
+          // console.log(x);
+          // console.log("left_keydown");
+          // console.log(username);
+          dashboard.players_list[username].move_left();
+        }
+        //RIGHT
+        else if(data.keyCode == 39)
+        {
+          console.log("right");
+          console.log(username);
+          dashboard.players_list[username].move_right();
+          // console.log('key39');
+          // console.log(username);
+          // x = x + increment;
+          // $('div#player'+ username).attr("style", "left:" + x +"px; top:" + y +"px;")
+          // if (x%2 == 0)
+          //  $('img#ninja1').attr("src", "/ninja/img/right1.png")
+          // else
+          //  $('img#ninja1').attr("src", "/ninja/img/right2.png")
+          // pos_array =[x,y, username]
+          // socket.emit('send_ninja1_right', pos_array);
+          // console.log('key39x');
+          // console.log(pos_array);    
+        }
+        //UP
+        else if(data.keyCode == 38)
+        {
+          dashboard.players_list[username].move_up();
+        }
+        //DOWN
+        else if(data.keyCode == 40)
+        {
+          dashboard.players_list[username].move_down();
+        } 
+        // generate a snowball
+        else if(data.keyCode == 32)
+        {
+          dashboard.players_list[username].snowball();
+        } 
+      });
+
+
+      //send message to server and trigger send message event
+      $('form#send_message').submit(function() {
+        socket.emit('send_message', $(this).serialize());
+        $("#chat_message").val("");
+
+        return false;
+      });
+
+      //display chat messages
+      socket.on('display_message', function (data){
+
+        if (data.username == username)
+          $('#user_message').prepend('<li>user_'+ data.username +'*: '+ data.message +'</li>')
+        else
+          $('#user_message').prepend('<li>user_'+ data.username +': '+ data.message +'</li>')
+      }); 
+
+      // //show all online users
+      // socket.on('get_all_users', function (users){
+
+      //  alert('get_all_users');
+
+      //  $("ul#usernames").empty();
+      //  users.forEach(function (user){
+      //    if(user.is_login === true)
+      //    {
+      //      if (user.username == username)
+      //        $("ul#usernames").append("<li>user_"+ user.username +"*</li>");
+      //      else
+      //        $("ul#usernames").append("<li>user_"+ user.username +"</li>");
+      //    }
+      //  });
+      // });
+
+      // create a dashboard object and players list array for tracking all the different players
+      dashboard = new Object();
+      dashboard.players_list = new Array();
+
+      $("form#create_player").submit(function(){
+        console.log("create player");
+        console.log(username);
+
+        dashboard.players_list[username] = new Player({x: 100, y:150}, username);
+        // dashboard.players_list[username].alertTest();
+        dashboard.players_list[username].image_create();
+        console.log(dashboard.players_list[username]);
+
+        return false;
+      })
+
+      //define the Player object
+      function Player(coord, username){
+        this.x = coord.x;
+        this.y = coord.y;
+        this.name = username;
+        this.increment = 9;
+
+        // this.alertTest = function()
+        // {
+        //  alert('hi');
+        // }
+
+        this.image_create = function(){
+          $("div#players").append("<div class='player' id='player" + this.name +"' style='left:100px; top:150px;'><p>player" + this.name + "*</p><img id='ninja1' src='/ninja/img/down1.png'></div>");
+
+          socket.emit('send_new_player', this.name);
+        } 
+
+        this.move_left = function(){
+          console.log('move_left_obj');
+          this.x = this.x - this.increment;
+          $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
+          if (this.x%2 == 0)
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/left1.png")
+          else
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/left2.png")
+          pos_array =[this.x, this.y, username];
+          socket.emit('send_ninja1_left', pos_array);
+        }
+
+        this.move_right = function(){
+          console.log('move_right_obj');
+          this.x = this.x + this.increment;
+          $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
+          if (this.x%2 == 0)
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/right1.png")
+          else
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/right2.png")
+          pos_array =[this.x, this.y, username];
+          socket.emit('send_ninja1_right', pos_array);
+        }
+
+        this.move_up = function(){
+          console.log('move_up_obj');
+          this.y = this.y - this.increment;
+          $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
+          if (this.y%2 == 0)
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/up1.png")
+          else
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/up2.png")
+          pos_array =[this.x, this.y, username];
+          socket.emit('send_ninja1_up', pos_array);
+        }
+
+        this.move_down = function(){
+          console.log('move_down_obj');
+          this.y = this.y + this.increment;
+          $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
+          if (this.y%2 == 0)
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down1.png")
+          else
+            $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down2.png")
+          pos_array =[this.x, this.y, username];
+          socket.emit('send_ninja1_down', pos_array);
+        }
+
+        this.snowball = function (){
+          this.snowball.x = this.x+7;
+          this.snowball.y = this.y + 50;
+          this.snowball.direction = "right";
+
+          $("div#snowballs").append("<img class='snowball' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
+          console.log("x")
+          // console.log(this.snowball.x);
+          
+          // console.log(this.snowball.x);
+
+          temp_snowball_x = this.snowball.x
+          temp_snowball_y = this.snowball.y
+
+          for(var i=0; i<3 ; i = i +1)
+          { 
+            
+            // function display_snow()
+            // {
+            //  console.log(temp_snowball_x);
+            //  alert('display_snow');
+            //  temp_snowball_x += 5;
+            //  $("img.snowball").attr("style", "left:" + temp_snowball_x + "px; top:" + temp_snowball_y + "px;'>");
+            //  setTimeout(500);
+            // }
+            // // setTimeout(display_snow, 500);
+            // display_snow();
+
+            function display_snow(callback){
+              
+              console.log(temp_snowball_x);
+              temp_snowball_x += 15;
+              alert(temp_snowball_x);
+              $("img.snowball").attr("style", "left:" + temp_snowball_x + "px; top:" + temp_snowball_y + "px;'>");
+              callback();
+            }
+
+
+            function wait(){
+              alert('wait');
+              setTimeout(500);
+            }
+
+            display_snow(wait);
+
+          }
+
+          pos_array = [this.x, this.y, username];
+          socket.emit('send_new_snowball', pos_array);
+        }
+
+      }
+    }); //end of document.ready
+
+  </script>
+  
+</head>
+<body>
+  <!-- <div class="container"> -->
+    <button type="button" class="btn btn-xlarge" onclick="location.href='http://localhost:3000/signout'">Sign Out</button>
+    <div id="message_board">
+      <h3>Message Board</h3>
+      <div id="show_messages">
+        <ul id="user_message"></ul>
+      </div>
+      <div id="messages" class="span4">
+        <form id="send_message" action="" method="post">
+          <fieldset>
+            <input type="text" name="chat_message" id="chat_message" class="span2" placeholder="Type your message.">
+            <input type="submit" class="btn pull-right" value="Send">
+          <fieldset>
+        </form>
+      </div>
+    </div>
+
+    <div id="cr-stage">
+      <form id="create_player" action="" method="post">
+        <input type = "submit" value="create new player">
+      </form> 
+      <div id="players">
+        <!-- <img id="ninja1" src="/ninja/img/down1.png" style="left:100px; top:150px;"> -->
+      </div>
+      <div id="snowballs"></div>  
+    </div>
+
+    <div id="people_online">
+      <div id="users">
+        <h3>Online Users</h3>
+        <div id="people_list">
+          <ul id="usernames" class="nav"></ul>
+        </div>
+      </div>
+    </div>
+  <!-- </div> -->
+</body>
+</html>

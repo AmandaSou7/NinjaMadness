@@ -1,0 +1,9 @@
+<% @users.each do |usr| %>
+	<div>
+	  <span>Username: <%= usr[:alias_name] %></span><br>
+	  <span>First Name: <%= usr[:first_name] %></span><br>
+	  <span>Last Name: <%= usr[:last_name] %></span><br>
+	  <span>Email Address: <%= usr[:email_address] %></span>
+	</div>
+	<br>
+<% end %>

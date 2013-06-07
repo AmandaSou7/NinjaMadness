@@ -1,0 +1,46 @@
+<div class="" id="loginModal">
+  <div class="modal-body">
+    <div class="well">
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active in" id="login">
+          <% if flash[:error] %>
+            <p><%= flash[:error] %></p>
+          <% end %>
+          <form class="form-horizontal" action="/sessions" method="POST">
+            <fieldset>
+              <div id="legend">
+                <legend class="">
+                  Login
+                  <button type="button" class="btn btn-primary pull-right" onClick="location.href='signup'">Create Account</button>
+                </legend>
+              </div>
+
+              <div class="control-group">
+                <!-- Username -->
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                  <input type="text" id="username" name="session[email_address]" placeholder="" class="input-xlarge" value="<% session[:email_address] %>">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                  <input type="password" id="password" name="session[password]" placeholder="" class="input-xlarge">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                  <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                  <input type="submit" name="login" class="btn btn-success" value="Login" />
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>

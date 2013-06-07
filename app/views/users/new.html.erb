@@ -1,0 +1,71 @@
+<div class="window_effect" id="loginModal">
+  <div class="modal-body">
+    <div class="well">
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active in" id="create">
+          <form class="form-horizontal" action="/users" id="tab" method="POST">
+            <fieldset>
+              <div id="legend">
+                <legend class="">Registration</legend>
+              </div>
+
+              <div class="control-group">
+                <!-- Username -->
+                <label class="control-label" for="username">Username</label>
+                <div class="controls">
+                  <input type="text" id="username" name="player[username]" placeholder="<%= @player.errors[:alias_name][0] if @player.errors %>" class="input-xlarge" value="<%= session[:username] if !@player.errors[:alias_name][0] %>">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- First Name -->
+                <label class="control-label" for="first_name">First Name</label>
+                <div class="controls">
+                  <input type="text" id="first_name" name="user[first_name]" placeholder="<%= @user.errors[:first_name][0] %>" class="input-xlarge" value="<%= session[:first_name] if !@user.errors[:first_name][0] %>">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Last Name -->
+                <label class="control-label" for="last_name">Last Name</label>
+                <div class="controls">
+                  <input type="text" id="last_name" name="user[last_name]" placeholder="<%= @user.errors[:last_name][0] %>" class="input-xlarge" value="<%= session[:last_name] if !@user.errors[:last_name][0] %>">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Email Address -->
+                <label class="control-label" for="email_address">Email Address</label>
+                <div class="controls">
+                  <input type="text" id="email_address" name="user[email_address]" placeholder="<%= @user.errors[:email_address][0] %>" class="input-xlarge" value="<%= session[:email_address] if !@user.errors[:email_address][0] %>">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <!-- Password -->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                  <input type="password" id="password" name="user[password]" placeholder="<%= @user.errors[:password][0] %>" class="input-xlarge">
+                </div>
+              </div>
+
+              <!-- <div class="control-group">
+                <!-- Password
+                <label class="control-label" for="password_confirmation">Confirm Password</label>
+                <div class="controls">
+                  <input type="password" id="password_confirmation" name="user[password_confirmation]" placeholder="" class="input-xlarge">
+                </div>
+              </div> -->
+
+              <div class="control-group">
+                <!-- Button -->
+                <div class="controls">
+                  <input type="submit" name="register" class="btn btn-primary" value="Create Account" />
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>

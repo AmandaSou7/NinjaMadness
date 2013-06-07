@@ -1,0 +1,58 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	background-color: rgba(0,0,0,0.8);
+	background: url(anime_2.jpg) no-repeat center fixed;
+	background-position: top left;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+
+	font-family: "Monofett", Arial, Helvetica, sans-serif;
+}
+
+span {
+	font-size: 16pt;
+	margin: 0;
+}
+
+.float_right {
+	float: right;
+}
+
+#loginModal {
+	//margin: auto;
+	position: relative;
+	width: 60%;
+}
+
+.modal-body {
+	max-height: none;
+}
+
+.space {
+	padding-left: 1px;
+}
+
+#msg {
+	float: left;
+	clear: both;
+	width: 136px;
+}
+
+#submit {
+	margin-left: 5px;
+}
+
+.orienta {
+	color: white;
+	font-size: 9pt;
+	font-family: "Orienta", Arial, Helvetica, sans-serif;
+}
