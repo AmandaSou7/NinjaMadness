@@ -41,10 +41,11 @@ ActiveRecord::Schema.define(:version => 20130604171228) do
   add_index "scores", ["player_id"], :name => "index_scores_on_player_id"
 
   create_table "users", :force => true do |t|
+    t.string   "salt",               :limit => nil
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email_address"
-    t.string   "encrypt_password"
+    t.string   "encrypted_password"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

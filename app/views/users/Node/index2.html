@@ -290,19 +290,23 @@
           temp_snowball_y = this.snowball.y
           
           var timer;
-          var init = 0;
-          var x = 0;
+          var x = this.x + 10;
+          var y = this.y + 40;
           var interval = 10;
 
           function throw_snow () {
-            if(x < $('#cr-stage').width()){
+            if(data.keycode == 37 && (x < $('#cr-stage').width())){
               x = x + 10;
-              $("div#snowballs img").attr("style", "left:" + x +"px");
+              
             }
-            if(x+10 > $('#cr-stage').width()){
-              // $("div#snowballs img").attr("style", "left:" + 0 +"px");
+            if(data.keycode == 37 && (x+10 > $('#cr-stage').width())){
               remove_snow();
             }
+            if(data.keycode == 39 && (x < $('#cr-stage').width())){
+              x = x - 10;
+
+            }
+            $("div#snowballs img").attr("style", "left:" + x +"px; top:" + y +"px");
           }
 
           function remove_snow () {
