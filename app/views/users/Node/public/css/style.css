@@ -12,6 +12,7 @@ body {
 	padding: 0px;
 	background-color: rgba(0,0,0,0.8);
 	background: url('../img/anime_2.jpg') no-repeat center fixed;
+	background-position: top left;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

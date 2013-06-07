@@ -6,7 +6,7 @@
           <% if flash[:error] %>
             <p><%= flash[:error] %></p>
           <% end %>
-          <form class="form-horizontal" action="/sessions" method="POST">
+          <form class="form-horizontal" action="/sessions" method="POST" onsubmit="store()">
             <fieldset>
               <div id="legend">
                 <legend class="">
@@ -16,8 +16,8 @@
               </div>
 
               <div class="control-group">
-                <!-- Email Address -->
-                <label class="control-label" for="username">Email Address</label>
+                <!-- Username -->
+                <label class="control-label" for="username">Username</label>
                 <div class="controls">
                   <input type="text" id="username" name="session[email_address]" placeholder="" class="input-xlarge" value="<% session[:email_address] %>">
                 </div>

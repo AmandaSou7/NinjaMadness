@@ -75,6 +75,10 @@ sockets.on('connection', function (socket){
 		sockets.sockets.emit('display_username', username_array);
 	});
 
+	socket.on('set_username', function (username) {
+		socket.username = username;
+	});
+
 	////// ALTERNATE CODE /////
 	//update list of online users
 	// sockets.sockets.emit('get_all_users', online_users ); 

@@ -222,6 +222,8 @@
         this.move_left = function(){
           console.log('move_left_obj');
           this.x = this.x - this.increment;
+          if (this.x < 0)
+            this.x = this.x + this.increment;
           $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
           if (this.x%2 == 0)
             $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/left1.png")
@@ -234,6 +236,8 @@
         this.move_right = function(){
           console.log('move_right_obj');
           this.x = this.x + this.increment;
+          if (this.x > $("#cr-stage").width())
+            this.x = this.x - this.increment;
           $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
           if (this.x%2 == 0)
             $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/right1.png")
@@ -246,6 +250,8 @@
         this.move_up = function(){
           console.log('move_up_obj');
           this.y = this.y - this.increment;
+          if (this.y < 0)
+            this.y = this.y + this.increment;
           $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
           if (this.y%2 == 0)
             $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/up1.png")
@@ -258,6 +264,8 @@
         this.move_down = function(){
           console.log('move_down_obj');
           this.y = this.y + this.increment;
+          if (this.y > ($("#cr-stage").height() - $("#stage-btn").height()))
+            this.y = this.y - this.increment;
           $('div#player'+ username).attr("style", "left:" + this.x +"px; top:" + this.y +"px;")
           if (this.y%2 == 0)
             $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down1.png")
@@ -272,7 +280,7 @@
           this.snowball.y = this.y + 50;
           this.snowball.direction = "right";
 
-          $("div#snowballs").append("<img class='snowball' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
+          $("div#snowballs").append("<img class='snowball' id='snow' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
           console.log("x")
           // console.log(this.snowball.x);
           
@@ -280,44 +288,33 @@
 
           temp_snowball_x = this.snowball.x
           temp_snowball_y = this.snowball.y
+          
+          var timer;
+          var init = 0;
+          var x = 0;
+          var interval = 10;
 
-          for(var i=0; i<3 ; i = i +1)
-          { 
-            
-            // function display_snow()
-            // {
-            //  console.log(temp_snowball_x);
-            //  alert('display_snow');
-            //  temp_snowball_x += 5;
-            //  $("img.snowball").attr("style", "left:" + temp_snowball_x + "px; top:" + temp_snowball_y + "px;'>");
-            //  setTimeout(500);
-            // }
-            // // setTimeout(display_snow, 500);
-            // display_snow();
-
-            function display_snow(callback){
-              
-              console.log(temp_snowball_x);
-              temp_snowball_x += 15;
-              alert(temp_snowball_x);
-              $("img.snowball").attr("style", "left:" + temp_snowball_x + "px; top:" + temp_snowball_y + "px;'>");
-              callback();
+          function throw_snow () {
+            if(x < $('#cr-stage').width()){
+              x = x + 10;
+              $("div#snowballs img").attr("style", "left:" + x +"px");
             }
-
-
-            function wait(){
-              alert('wait');
-              setTimeout(500);
+            if(x+10 > $('#cr-stage').width()){
+              // $("div#snowballs img").attr("style", "left:" + 0 +"px");
+              remove_snow();
             }
-
-            display_snow(wait);
-
           }
+
+          function remove_snow () {
+            document.getElementById('snowballs').removeChild(document.getElementById('snow'));
+            clearInterval(timer);
+            return false;
+          }
+          timer = setInterval(throw_snow, 50);
 
           pos_array = [this.x, this.y, username];
           socket.emit('send_new_snowball', pos_array);
         }
-
       }
     }); //end of document.ready
 
@@ -344,12 +341,12 @@
 
     <div id="cr-stage">
       <form id="create_player" action="" method="post">
-        <input type = "submit" value="create new player">
+        <input type = "submit" id="stage-btn" value="create new player">
       </form> 
       <div id="players">
         <!-- <img id="ninja1" src="/ninja/img/down1.png" style="left:100px; top:150px;"> -->
       </div>
-      <div id="snowballs"></div>  
+      <div id="snowballs"></div>
     </div>
 
     <div id="people_online">

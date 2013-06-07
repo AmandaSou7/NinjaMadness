@@ -8,10 +8,16 @@
   <link href="http://bootsnipp.com/css/bootstrap-responsive.min.css" media="all" type="text/css" rel="stylesheet">
   <script src="http://bootsnipp.com/js/jquery.js"></script>
   <script src="http://bootsnipp.com/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="http://localhost:8000/socket.io/socket.io.js"></script>
   <%= stylesheet_link_tag "users", :media => "all" %>
   <%= javascript_include_tag "users" %>
   <%= csrf_meta_tags %>
   <script>
+    function store() {
+      var socket = io.connect('http://localhost:8000');
+      socket.emit('set_username', document.getElementById('username'));
+    }
+    
     $('document').ready( function () {
     });
   </script>
