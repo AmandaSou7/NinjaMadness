@@ -35,9 +35,10 @@ button {
 	width: 22%;
 	/*width: 200px;
 	height: 450px;*/
+	margin-left: 2%;
 	margin-right: 35px;
 	background-color: rgba(0,0,0,0.7);
-	margin-top: 9%;
+	margin-top: 8%;
 	color: rgb(253,166,81);
 }
 #message_board h3 {
@@ -48,9 +49,16 @@ button {
 	color: rgb(252,221,22);
 	border-bottom: 1px solid white;
 }
+
+#message_submit {
+	/*width: 30px;
+	height: 3%;*/
+}
+
 #show_messages {
 	float: left;
-	width: 200px;
+	/*width: 280px;*/
+	width: 100%;
 	height: 320px;
 	margin-right: 3px;
 	margin-top: 5px;
@@ -69,7 +77,21 @@ button {
 	padding-bottom: 2px;
 }
 
+#messages {
+	width: 100%;
+	margin: auto;
+}
 
+input#chat_message{
+	width: 65%;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+form#send_message {
+	margin: 0px;
+	margin-left: 10px;
+}
 
 /* CR-STAGE STYLES */
 #cr-stage {
@@ -80,26 +102,30 @@ button {
 	height: 400px;
 	/*height: 60%;*/
 	background-color: rgba(255,255,255,0.7);
-	position: relative;
 	margin: auto;
-	margin-top: 9%;
+	margin-top: 8%;
 	/*margin-right: 35px;*/
 }
 #players {
 	color: darkblue;
 }
 
-
+.clear {
+clear: both;	
+}
 
 /* PEOPLE ONLINE STYLES */
 #people_online {
+	margin: auto;
 	float: right;
 	clear: right;
-	/*width: 200px;*/
-	width: 22%;
+	width: 200px;
+	position: relative;
+	width: 18%;
+	margin-right: 2%;
 	height: 200px;
 	background-color: rgba(0,0,0,0.7);
-	margin-top: 11%;
+	margin-top: 8%;
 }
 #people_online h3 {
 	font-family: "Monofett";

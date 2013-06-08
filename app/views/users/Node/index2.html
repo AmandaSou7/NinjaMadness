@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
-  <link href='http://fonts.googleapis.com/css?family=Monofett' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css'>
+  <!-- <link href='http://fonts.googleapis.com/css?family=Monofett' rel='stylesheet' type='text/css'> -->
+  <!-- <link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css'> -->
   <link rel="stylesheet" href="public/css/bootstrap.min.css">
   <link rel="stylesheet" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/ninja_snowball.css">
@@ -340,18 +340,19 @@
 </head>
 <body>
   <!-- <div class="container"> -->
-    <button type="button" class="btn btn-xlarge" onclick="location.href='http://localhost:3000/signout'">Sign Out</button>
+    <button type="button" class="btn btn-small" onclick="location.href='http://localhost:3000/signout'">Sign Out</button>
+    <div class="clear"></div>
     <div id="message_board">
       <h3>Message Board</h3>
       <div id="show_messages">
         <ul id="user_message"></ul>
       </div>
-      <div id="messages" class="span4">
+      <div id="messages">
         <form id="send_message" action="" method="post">
-          <fieldset>
-            <input type="text" name="chat_message" id="chat_message" class="span2" placeholder="Type your message.">
-            <input type="submit" class="btn pull-right" value="Send">
-          <fieldset>
+          <!-- <fieldset> -->
+            <input type="submit" id= "message_submit" class="btn btn-small" value="Send">
+            <input type="text" name="chat_message" id="chat_message" placeholder="Type your message.">
+          <!-- </fieldset> -->
         </form>
       </div>
     </div>
@@ -367,11 +368,9 @@
     </div>
 
     <div id="people_online">
-      <div id="users">
-        <h3>Online Users</h3>
-        <div id="people_list">
-          <ul id="usernames" class="nav"></ul>
-        </div>
+      <h3>Online Users</h3>
+      <div id="people_list">
+        <ul id="usernames" class="nav"></ul>
       </div>
     </div>
   <!-- </div> -->
