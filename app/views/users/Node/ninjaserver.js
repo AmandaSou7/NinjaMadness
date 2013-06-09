@@ -130,9 +130,17 @@ sockets.on('connection', function (socket){
 		socket.broadcast.emit('display_ninja1_down', pos_array);
 	});
 
-	// listens to and sends the creation of a new player
-	socket.on('send_new_snowball', function (username){
-		socket.broadcast.emit('display_new_snowball', username);
+	// listens to and sends the creation of a new snowball
+	socket.on('send_new_snowball', function (pos_array){
+		socket.broadcast.emit('display_new_snowball', pos_array);
+	});
+	// listens to and sends the updated coordinates of the existing snowball
+	socket.on('send_update_snowball', function (pos_array){
+		socket.broadcast.emit('display_update_snowball', pos_array);
+	});
+	// listens to and sends the removed snowball name
+	socket.on('send_remove_snowball', function (snowball_name){
+		socket.broadcast.emit('display_remove_snowball', snowball_name);
 	});
 
 }); // end of sockets.on connection

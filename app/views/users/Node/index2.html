@@ -68,6 +68,27 @@
       else
         $('div#player'+ username+' img#ninja1').attr("src", "/ninja/img/down2.png")
     });
+
+    socket.on('display_new_snowball', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      snowball_name = pos_array[3];
+      $("div#snowballs").append("<img class='snowball "+username+"' id='"+ snowball_name +"' src='/snowball.png' style='left:"+ x+ "px; top:"+ y +"px;'>");
+      console.log(pos_array);
+    });
+
+    socket.on('display_update_snowball', function (pos_array){
+      x = pos_array[0];
+      y = pos_array[1];
+      username = pos_array[2];
+      snowball_name = pos_array[3];
+      $("#"+snowball_name+"").attr("style", "left:" + x +"px; top:" + y +"px");
+    });
+
+    socket.on('display_remove_snowball', function (snowball_name){
+      document.getElementById('snowballs').removeChild(document.getElementById(snowball_name));
+    });
     
     //trigger send message event 
     $(document).ready(function(){
@@ -283,19 +304,13 @@
         this.snowball = function (key_direction){
           this.snowball.x = this.x+7;
           this.snowball.y = this.y + 50;
-          this.snowball.direction = "right";
-
           i++;
           var snowball_name = "snow"+i;
 
-          $("div#snowballs").append("<img class='snowball' id='"+ snowball_name +"' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
-          console.log("x")
-          // console.log(this.snowball.x);
-          
-          // console.log(this.snowball.x);
+          $("div#snowballs").append("<img class='snowball "+username + "' id='"+ snowball_name +"' src='/snowball.png' style='left:"+ this.snowball.x+ "px; top:"+ this.snowball.y +"px;'>");
 
-          temp_snowball_x = this.snowball.x
-          temp_snowball_y = this.snowball.y
+          pos_array = [this.snowball.x, this.snowball.y, username, snowball_name];
+          socket.emit('send_new_snowball', pos_array);
           
           var timer;
           var x = this.x + 10;
@@ -304,33 +319,35 @@
 
           function throw_snow () {
             if(key_direction == 39 && (x < $('#cr-stage').width())){
-              x = x + 10;
+              x = x + interval;
             }
             if(key_direction == 37 && (x > 0)){
-              x = x - 10;
+              x = x - interval;
             }
             if(key_direction == 40 && (y < $('#cr-stage').height())){
-              y = y + 10;
+              y = y + interval;
             }
             if(key_direction == 38 && (y > 0 )){
-              y = y - 10;
+              y = y - interval;
             }
             if(x > $('#cr-stage').width() || x < 0 || y > $('#cr-stage').height() || y < 0){
               remove_snow();
               return;
             }
             $("#"+snowball_name+"").attr("style", "left:" + x +"px; top:" + y +"px");
+
+            pos_array = [x, y, username, snowball_name];
+            socket.emit('send_update_snowball', pos_array);
           }
 
           function remove_snow () {
+            socket.emit('send_remove_snowball', snowball_name);
+
             document.getElementById('snowballs').removeChild(document.getElementById(snowball_name));
             clearInterval(timer);
             return false;
           }
           timer = setInterval(throw_snow, 50);
-
-          pos_array = [this.x, this.y, username];
-          socket.emit('send_new_snowball', pos_array);
         }
       }
     }); //end of document.ready
