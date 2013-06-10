@@ -106,6 +106,13 @@ form#send_message {
 	margin-top: 8%;
 	/*margin-right: 35px;*/
 }
+
+
+
+#cr-stage h5{
+	color: black;
+}
+
 #players {
 	color: darkblue;
 }
