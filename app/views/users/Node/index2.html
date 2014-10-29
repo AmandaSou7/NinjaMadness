@@ -214,7 +214,8 @@
       dashboard = new Object();
       dashboard.players_list = new Array();
 
-      $("form#create_player").submit(function(){
+      // $("form#create_player").submit(function(){
+      $("#stage-btn").click(function(){
         console.log("create player");
         console.log(username);
 
@@ -350,6 +351,7 @@
           timer = setInterval(throw_snow, 50);
         }
       }
+      $("#players").click();  //avoid creating new player when tapping space bar by removing focus on form to separate object.
     }); //end of document.ready
 
   </script>
